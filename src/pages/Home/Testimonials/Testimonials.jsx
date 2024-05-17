@@ -6,9 +6,9 @@ import "swiper/css/navigation";
 import { useEffect, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import { Navigation } from "swiper/modules";
-import commas from "../../assets/commas.svg"
+import commas from "../../../assets/commas.svg"
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
