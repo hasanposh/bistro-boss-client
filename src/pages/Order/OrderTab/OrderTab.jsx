@@ -1,7 +1,6 @@
 import FoodCard from "../../../components/FoodCard/FoodCard";
 import PropTypes from "prop-types";
 
-import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from 'swiper/modules';
