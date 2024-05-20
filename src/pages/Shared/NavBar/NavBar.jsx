@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import { MdShoppingCart } from "react-icons/md";
+import useCart from "../../../hooks/useCart";
 
 const NavBar = () => {
   const { user, signOutUser } = useAuth();
+  const [cart] = useCart()
   const handleLogOut = () => {
     signOutUser()
       .then(() => {})
@@ -19,8 +22,20 @@ const NavBar = () => {
       <li>
         <NavLink to={"/order/salad"}>Order Food</NavLink>
       </li>
+      <li>
+        <NavLink to={"/seccet"}>Seccet</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/dashboard/cart"}>
+          <button className="btn">
+          <MdShoppingCart />
+            <div className="badge badge-secondary">+{cart.length}</div>
+          </button>
+        </NavLink>
+      </li>
       {user ? (
         <>
+          <li>{user.displayName}</li>
           <button onClick={handleLogOut} className="btn btn-ghost">
             Log Out
           </button>
