@@ -5,13 +5,9 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import useAuth from "../../hooks/useAuth";
-import {
-  Link,
-
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
@@ -124,7 +120,11 @@ const Login = () => {
               </button>
             </div>
           </form>
-          <p className=" text-xs font-light text-center ">
+          <div className="text-center space-y-2">
+            <h2 className="text-xl">Social Login</h2>
+            <SocialLogin />
+          </div>
+          <p className=" text-xs font-light text-center py-4">
             Dont have an account?
             <Link
               to={"/register"}

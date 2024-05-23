@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
+// import axios from "axios";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -15,26 +19,48 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log('Form data:', data);
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
-      console.log(loggedUser);
+      console.log('Logged user:', loggedUser);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          console.log("user profile info updated");
-          reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "User created successfully.",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          navigate("/");
+          console.log("User profile info updated");
+          // Create user entry in database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          console.log(userInfo)
+          axiosPublic.post("/users", userInfo)
+            .then((res) => {
+              console.log('Server response:', res.data);
+              if (res.data.insertedId) {
+                console.log("User added to the database");
+  
+                reset();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "User created successfully.",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              }
+            })
+            .catch((error) => {
+              console.error('Error adding user to database:', error);
+            });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.error('Error updating user profile:', error);
+        });
     });
   };
+
+  
+  
   return (
     <>
       <Helmet>
@@ -142,15 +168,19 @@ const Register = () => {
                 />
               </div>
             </form>
-            <p className="text-xs font-light text-center ">
-            Already have an account?
-            <Link
-              to={"/login"}
-              className="font-medium text-black hover:underline"
-            >
-              Login
-            </Link>
-          </p>
+            <div className="text-center space-y-2">
+            <h2 className="text-xl">Social Login</h2>
+            <SocialLogin />
+          </div>
+            <p className="text-xs font-light text-center py-4">
+              Already have an account?
+              <Link
+                to={"/login"}
+                className="font-medium text-black hover:underline"
+              >
+                Login
+              </Link>
+            </p>
           </div>
         </div>
       </div>
