@@ -10,11 +10,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import { ImSpoonKnife } from "react-icons/im";
 import { CgMenuGridR } from "react-icons/cg";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart();
   // TODO: get isAdmin value from database
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  console.log(isAdmin)
   return (
     <div className="flex">
       {/* dashboard side bar */}
@@ -29,7 +31,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/reservation">
+                <NavLink to="/dashboard/addItems">
                 <ImSpoonKnife />
                   Add Items
                 </NavLink>
