@@ -1,10 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { MdShoppingCart } from "react-icons/md";
 import useCart from "../../../hooks/useCart";
+import useAdmin from "../../../hooks/useAdmin";
 
 const NavBar = () => {
   const { user, signOutUser } = useAuth();
+  const [isAdmin] = useAdmin();
   const [cart] = useCart()
   const handleLogOut = () => {
     signOutUser()
@@ -22,9 +24,19 @@ const NavBar = () => {
       <li>
         <NavLink to={"/order/salad"}>Order Food</NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to={"/seccet"}>Seccet</NavLink>
-      </li>
+      </li> */}
+        {
+            // user ? 'true': 'false'
+            // user ? condition ? 'double true' : 'one true' : 'false' 
+        }
+        {
+            user && isAdmin && <li><Link to="/dashboard/adminHome">Dashboard</Link></li>
+        }
+        {
+            user && !isAdmin && <li><Link to="/dashboard/userHome">Dashboard</Link></li>
+        }
       <li>
         <NavLink to={"/dashboard/cart"}>
           <button className="btn">

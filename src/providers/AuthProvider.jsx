@@ -58,6 +58,7 @@ const AuthProvider = ({ children }) => {
             console.log(res.data); // Log the response data to check if the token is received
             if (res.data.token) {
               localStorage.setItem("access-token", res.data.token);
+              setLoading(false);
             }
           })
           .catch((error) => {
@@ -65,8 +66,8 @@ const AuthProvider = ({ children }) => {
           });
       } else {
         localStorage.removeItem("access-token");
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => {
       return unsubscribe();
